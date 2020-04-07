@@ -11,7 +11,7 @@ Imports
 
     // Inner
     const mongoDB = require('./services/db.service');
-    //const { mainRouter } = require('./routes/main.router');
+    const { mainRouter } = require('./routes/main.router');
     const List = require('./database/models/list');
     const Task = require('./database/models/task');
 
@@ -36,15 +36,8 @@ Server Configuration
             server.set( 'views', __dirname + '/www' );
             server.use( express.static(path.join(__dirname, 'www')) );
 
-            //=> Use BodyParser to get user body data
-            server.use(bodyParser.json({limit: '10mb'}));
-            server.use(bodyParser.urlencoded({ extended: true }));
-
             //=> Use CookieParser to setup serverside cookies
-            //server.use(cookieParser(process.env.COOKIE_SECRET));
-
-            //=> Set server main router
-            server.use('/', mainRouter);*/
+            //server.use(cookieParser(process.env.COOKIE_SECRET));*/
 
             server.use(express.json());
             server.use((req, res, next) => {
@@ -54,8 +47,15 @@ Server Configuration
                 next();
             });
 
+            //=> Use BodyParser to get user body data
+            server.use(bodyParser.json({ limit: '10mb' }));
+            server.use(bodyParser.urlencoded({ extended: true }));
+
+            //=> Set server main router
+            server.use('/', mainRouter);
+            
             // Routes
-            server.get('/lists', (req, res) => {
+            /*server.get('/lists', (req, res) => {
                 List.find({})
                     .then(lists => res.send(lists))
                     .catch((error) => console.log(error))
@@ -123,7 +123,7 @@ Server Configuration
                 Task.findByIdAndDelete({ _listId: req.params.listId, _id: req.params.taskId })
                     .then((task) => res.send(task))
                     .catch((error) => console.log(error));
-            });
+            });*/
 
             // Start server
             this.launch();
@@ -151,10 +151,3 @@ Start server
 */
     new ServerClass().init();
 //
-
-/*server.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE");
-    res.header("Access-Control-Allo-Headers", "Origin, X-Requested-With, Content-type, Accept");
-    next();
-});*/
