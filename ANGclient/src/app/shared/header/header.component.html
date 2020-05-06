@@ -1,0 +1,39 @@
+<nav>
+  <ul>
+      <li *ngIf="!userData">
+          <a [routerLink]="'/'">Tableau de bord</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/campagne'">Campagnes</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/message'">Messages</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/candidature'">Candidatures</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/proposition'">Propositions</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/historique'">Historique</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/calendrier'">Mon calendrier</a>
+      </li>
+      <li *ngIf="userData">
+          <a [routerLink]="'/profil'">Mon profil</a>
+      </li>
+      <li *ngIf="!userData">
+          <a [routerLink]="'/inscription'">Inscription</a>
+      </li>
+      <li *ngIf="!userData">
+          <a [routerLink]="'/connexion'">Connexion</a>
+      </li>
+      <li *ngIf="userData">
+          <a href="#" (click)="logout()">Déconnexion</a>
+      </li>
+  </ul>
+</nav>
+
+<h1 *ngIf="userData !== null" [innerText]="userData.first_name"></h1>

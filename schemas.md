@@ -33,25 +33,31 @@ role: {
     type: String,
     enum: ["athlete", "brand"],
     required: [true, "can't be blank"]
-}
-```
-
-### Social Networks
-
-```sh
-type: {
-    type: String,
-    enum: ["Facebook", "Instagram"],
-    required: [true, "can't be blank"]
 },
-url: {
-    type: String,
-    required: [true, "can't be blank"],
+social_network: {
+    type: [{
+        name: {
+            type: String,
+            required: ['true', "can't be blank"]
+        },
+        url: {
+            type: String,
+            required: ['true', "can't be blank"]
+        }
+    }]
 },
-_userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, "can't be blank"]
+application: {
+    type: [{
+        offerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Offer',
+            required: [true, "can't be blank"]
+        },
+        valide: {
+            type: Boolean,
+            default: false
+        }
+    }]
 }
 ```
 
@@ -130,38 +136,43 @@ _userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, "can't be blank"]
-}
-```
-
-### Sponsors
-
-```sh
-name: {
-    type: String,
-    required: [true, "can't be blank"]
 },
-logo: {
-    type: String,
-    required: [true, "can't be blank"]
+practice: {
+    type: [{
+        sportId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Sport',
+            required: [true, "can't be blank"]
+        },
+        level: {
+            type: String,
+            enum: ["Débutant", "Amateur", "Semi-Pro", "Pro"],
+            required: [true, "can't be blank"]
+        }
+    }]
 },
-_athleteId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Athlete',
-    required: [true, "can't be blank"]
-}
-```
-
-### Awards
-
-```sh
-title: {
-    type: String,
-    required: [true, "can't be blank"]
+award: {
+    type: [{
+        title: {
+            type: String,
+            required: [true, "can't be blank"]
+        },
+        date: {
+            type: Date,
+            required: [true, "can't be blank"]
+        }
+    }]
 },
-_athleteId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Athlete',
-    required: [true, "can't be blank"]
+sponsor: {
+    type: [{
+        name: {
+            type: String,
+            required: [true, "can't be blank"]
+        },
+        logo: {
+            type: String
+        }
+    }]
 }
 ```
 
@@ -170,26 +181,6 @@ _athleteId: {
 ```sh
 name: {
     type: String,
-    required: [true, "can't be blank"]
-}
-```
-
-### Practices
-
-```sh
-level: {
-    type: String,
-    enum: ["Débutant", "Amateur", "Semi-Pro", "Pro"],
-    required: [true, "can't be blank"]
-},
-_athleteId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Athlete',
-    required: [true, "can't be blank"]
-},
-_sportId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Sport',
     required: [true, "can't be blank"]
 }
 ```
@@ -213,25 +204,6 @@ _authorId: {
 _receiverId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, "can't be blank"]
-}
-```
-
-### Applications
-
-```sh
-validate: {
-    type: Boolean,
-    required: [true, "can't be blank"]
-},
-_userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, "can't be blank"]
-},
-_offerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Offer',
     required: [true, "can't be blank"]
 }
 ```

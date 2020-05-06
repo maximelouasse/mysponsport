@@ -46,8 +46,45 @@ const AthleteSchema = new mongoose.Schema({
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: [true, "can't be blank"]
+    },
+    practice: {
+        type: [{
+            sportId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Sport',
+                required: [true, "can't be blank"]
+            },
+            level: {
+                type: String,
+                enum: ["Débutant", "Amateur", "Semi-Pro", "Pro"],
+                required: [true, "can't be blank"]
+            }
+        }]
+    },
+    award: {
+        type: [{
+            title: {
+                type: String,
+                required: [true, "can't be blank"]
+            },
+            date: {
+                type: Date,
+                required: [true, "can't be blank"]
+            }
+        }]
+    },
+    sponsor: {
+        type: [{
+            name: {
+                type: String,
+                required: [true, "can't be blank"]
+            },
+            logo: {
+                type: String
+            }
+        }]
     }
 });
 
