@@ -5,6 +5,8 @@ Import
     const mongoose = require('mongoose');
 //
 
+    const connectionOptions = { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false };
+
 /* 
 Define class
 */
@@ -16,9 +18,9 @@ Define class
 
         connectDb(){
             return new Promise( (resolve, reject) => {
-                mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
-                .then( db => resolve( { db: db, url: this.mongoUrl } ))
-                .catch( dbErr => reject(`MongoDB not connected`, dbErr) )
+                mongoose.connect(this.mongoUrl, connectionOptions)
+                    .then( db => resolve( { db: db, url: this.mongoUrl } ))
+                    .catch( dbErr => reject(`MongoDB not connected`, dbErr) )
             });
         };
     };

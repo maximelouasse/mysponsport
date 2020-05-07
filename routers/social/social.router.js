@@ -3,156 +3,90 @@ Imports
 */
     // Nodes
     const express = require('express');
-    const myRouter = express.Router();
+    const socialRouter = express.Router();
 
     // Modules
     const { checkFields } = require('../../services/request.checker');
     const Mandatories = require('../../services/mandatory.service');
+    const Vocabulary = require('../../services/vocabulary.service');
+    const { sendBodyError, sendFieldsError, sendApiSuccessResponse, sendApiErrorResponse } = require('../../services/response.service');
     const { createItem, readItem, readOneItem, updateItem, deleteItem } = require('./social.controller');
 //
 
 /*
 Routes definition
 */
-    class MyRouterClass {
+    class SocialRouterClass {
 
         // Inject passport in the class
         constructor() {}
 
         routes() {
             // CRUD: create
-            myRouter.post('/', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            socialRouter.post('/', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
                 // Check fields in the body
                 const { miss, extra, ok } = checkFields( Mandatories.social, req.body );
                 
-                if(!ok) {
-                    return res.status(400).json({
-                        message: 'Bad fields provided',
-                        data: null,
-                        err: {miss, extra}
-                    })
-                } else {
+                //=> Error: bad fields provided
+                if (!ok) { sendFieldsError(res, Vocabulary.errors.badFields, miss, extra) }
+                else {
+                    //=> Request is valid: use controller
                     createItem(req)
-                    .then( apiResponse => {
-                        return res.status(201).json({
-                            message: 'Data created',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not created',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
-                }
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                };
             })
 
             // CRUD: read
-            myRouter.get('/', (req, res) => {
+            socialRouter.get('/', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readItem()
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // CRUD: read one
-            myRouter.get('/:id', (req, res) => {
+            socialRouter.get('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readOneItem(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // CRUD: update
-            myRouter.put('/:id', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            socialRouter.put('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
                 // Check fields in the body
                 const { miss, extra, ok } = checkFields( Mandatories.social, req.body );
-
-                if(!ok) {
-                    return res.status(400).json({
-                        message: 'Bad fields provided',
-                        data: null,
-                        err: {miss, extra}
-                    })
-                } else {
+                
+                //=> Error: bad fields provided
+                if (!ok) { sendFieldsError(res, Vocabulary.errors.badFields, miss, extra) }
+                else {
+                    //=> Request is valid: use controller
                     updateItem(req)
-                    .then( apiResponse => {
-                        return res.status(201).json({
-                            message: 'Data updated',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not updated',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
-                }
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                };
             })
 
             // CRUD: delete
-            myRouter.delete('/:id', (req, res) => {
+            socialRouter.delete('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 deleteItem(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data deleted',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not deleted',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
         }
 
@@ -161,7 +95,7 @@ Routes definition
             this.routes();
 
             // Sendback router
-            return myRouter;
+            return socialRouter;
         }
     }
 //
@@ -169,5 +103,5 @@ Routes definition
 /*
 Export
 */
-    module.exports = MyRouterClass;
+    module.exports = SocialRouterClass;
 //

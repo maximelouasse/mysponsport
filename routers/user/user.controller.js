@@ -1,5 +1,8 @@
-// Imports
-const Models = require('../../models/index')
+/*
+Import
+*/
+    const { UserModel } = require('../../models/index');
+//
 
 /* 
 Methods CRUD
@@ -7,7 +10,7 @@ Methods CRUD
     // User
     const createItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.create(req.body)
+            UserModel.create(req.body)
             .then( user => resolve({user}) )
             .catch( err => reject(err) );
         })
@@ -16,7 +19,7 @@ Methods CRUD
     const readItem = (req) => {
         if(req.query.email != null && req.query.email != "") {
             return new Promise( (resolve, reject) => {
-                Models.user.find( { email: req.query.email }, (err, collection) => {
+                UserModel.find( { email: req.query.email }, (err, collection) => {
                     if( err ) {
                         return reject(err)
                     } else if(collection.length > 0) {
@@ -31,7 +34,7 @@ Methods CRUD
         }
 
         return new Promise( (resolve, reject) => {
-            Models.user.find( (err, collection) => {
+            UserModel.find( (err, collection) => {
                 err ? reject(err) : resolve(collection);
             })
         })
@@ -39,7 +42,7 @@ Methods CRUD
 
     const readOneItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.findById(req.params.id, (err, document) => {
+            UserModel.findById(req.params.id, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -47,11 +50,11 @@ Methods CRUD
 
     const updateItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
+            UserModel.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.user.findById( req.params.id, (err, updated) => {
+                    UserModel.findById( req.params.id, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -61,7 +64,7 @@ Methods CRUD
 
     const deleteItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.deleteOne({ _id: req.params.id }, (err, document) => {
+            UserModel.deleteOne({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -119,11 +122,11 @@ Methods CRUD
             offerId = req.body.offerId;
             
         return new Promise( (resolve, reject) => {
-            Models.user.findByIdAndUpdate({ _id: userId }, { $push: { application: { offerId: offerId } } }, (err, document) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $push: { application: { offerId: offerId } } }, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.user.findById( userId, (err, updated) => {
+                    UserModel.findById( userId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -133,7 +136,7 @@ Methods CRUD
 
     const readApplication = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.findById({ _id: req.params.id }, (err, document) => {
+            UserModel.findById({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document.application);
             })
         })
@@ -141,10 +144,11 @@ Methods CRUD
 
     const readOneApplication = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.user.findById({ _id: req.params.id }, (err, document) => {
+            UserModel.findById({ _id: req.params.id }, (err, document) => {
                 if(err) {
                     reject(err);
                 } else {
+                    console.log(document);
                     document.application.forEach(element => {
                         if(element._id == req.params.applicationId) {
                             resolve(element);
@@ -155,18 +159,54 @@ Methods CRUD
         })
     }
 
+    const updateApplication = (req) => {
+        var userId = req.params.id,
+            applicationId = req.params.applicationId,
+            offerId = req.body.offerId,
+            valide = req.body.valide;
+
+        return new Promise( (resolve, reject) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $set: { application: { _id: applicationId, offerId: offerId, valide: valide } } }, (err, collection) => {
+                if( err ) {
+                    return reject(err)
+                } else {
+                    UserModel.findById( userId, (err, updated) => {
+                        err ? reject(err) : resolve(updated);
+                    })
+                }
+            })
+        })
+    }
+
+    const deleteApplication = (req) => {
+        var userId = req.params.id,
+            applicationId = req.params.applicationId;
+
+        return new Promise( (resolve, reject) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $pull: { application: { _id: applicationId } } }, (err, collection) => {
+                if( err ) {
+                    return reject(err)
+                } else {
+                    UserModel.findById( userId, (err, updated) => {
+                        err ? reject(err) : resolve(updated);
+                    })
+                }
+            })
+        })
+    }
+
     // Social Network
     const createSocialNetwork = (req) => {
         var userId = req.params.id,
             type = req.body.type,
             url = req.body.url;
-            
+        
         return new Promise( (resolve, reject) => {
-            Models.user.findByIdAndUpdate({ _id: userId }, { $push: { social_network: { type: type, url: url} } }, (err, document) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $push: { social_network: { type: type, url: url} } }, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.user.findById( userId, (err, updated) => {
+                    UserModel.findById( userId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -181,11 +221,11 @@ Methods CRUD
             url = req.body.url;
 
         return new Promise( (resolve, reject) => {
-            Models.user.findByIdAndUpdate({ _id: userId }, { $set: { social_network: { _id: socialId, type: type, url: url } } }, (err, collection) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $set: { social_network: { _id: socialId, type: type, url: url } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.user.findById( userId, (err, updated) => {
+                    UserModel.findById( userId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -198,11 +238,11 @@ Methods CRUD
             socialId = req.params.socialId;
 
         return new Promise( (resolve, reject) => {
-            Models.user.findByIdAndUpdate({ _id: userId }, { $pull: { social_network: { _id: socialId } } }, (err, collection) => {
+            UserModel.findByIdAndUpdate({ _id: userId }, { $pull: { social_network: { _id: socialId } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.user.findById( userId, (err, updated) => {
+                    UserModel.findById( userId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -244,6 +284,8 @@ Export
         createApplication,
         readApplication,
         readOneApplication,
+        updateApplication,
+        deleteApplication,
         createSocialNetwork,
         updateSocialNetwork,
         deleteSocialNetwork,

@@ -1,12 +1,15 @@
-// Imports
-const Models = require('../../models/index')
+/*
+Import
+*/
+    const { SocialModel } = require('../../models/index');
+//
 
 /* 
 Methods CRUD
 */
     const createItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.social.create(req.body)
+            SocialModel.create(req.body)
             .then( social => resolve({social}) )
             .catch( err => reject(err) );
         })
@@ -14,7 +17,7 @@ Methods CRUD
 
     const readItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.social.find( (err, collection) => {
+            SocialModel.find( (err, collection) => {
                 err ? reject(err) : resolve(collection);
             })
         })
@@ -22,7 +25,7 @@ Methods CRUD
 
     const readOneItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.social.findById(req.params.id, (err, document) => {
+            SocialModel.findById(req.params.id, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -30,11 +33,11 @@ Methods CRUD
 
     const updateItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.social.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
+            SocialModel.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.social.findById( req.params.id, (err, updated) => {
+                    SocialModel.findById( req.params.id, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -44,7 +47,7 @@ Methods CRUD
 
     const deleteItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.social.deleteOne({ _id: req.params.id }, (err, document) => {
+            SocialModel.deleteOne({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
