@@ -12,13 +12,9 @@ Componant configuration
   @Component({
     selector: 'app-root',
     template: `
-      <header>
-        <app-header></app-header>
-      </header>
-
-      <main>
-        <router-outlet></router-outlet>
-      </main>
+      <app-sidebar></app-sidebar>
+      <app-header></app-header>
+      <router-outlet></router-outlet>
     `
   })
 //

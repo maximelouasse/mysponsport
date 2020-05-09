@@ -13,7 +13,6 @@
   import { AppComponent } from './app.component';
   import { MainRouter } from './app.router';
   import { HeaderComponent } from './shared/header/header.component';
-  import { ItemPostComponent } from './shared/item-post/item-post.component';
   import { CampaignPageComponent } from './routes/campaign-page/campaign-page.component';
   import { ApplicationPageComponent } from './routes/application-page/application-page.component';
   import { MessagePageComponent } from './routes/message-page/message-page.component';
@@ -22,31 +21,33 @@
   import { CalendarPageComponent } from './routes/calendar-page/calendar-page.component';
   import { RegisterPageComponent } from './routes/register-page/register-page.component';
 
-  // Inner modules
-  //import { HeaderModule } from "./components/header/module";
-  import { CookieService } from 'ngx-cookie-service';
+  import { ProfilePageComponent } from './routes/profile-page/profile-page.component';
+  import { LoginPageComponent } from './routes/login-page/login-page.component';
+  import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    ItemPostComponent,
-    CampaignPageComponent,
-    ApplicationPageComponent,
-    MessagePageComponent,
-    PropositionPageComponent,
-    HistoryPageComponent,
-    CalendarPageComponent,
-    RegisterPageComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot( MainRouter, { onSameUrlNavigation: 'reload' } )
-  ],
-  providers: [ AuthService ],
-  bootstrap: [ AppComponent ]
-})
-export class AppModule { }
+  @NgModule({
+    declarations: [
+      AppComponent,
+      HeaderComponent,
+      CampaignPageComponent,
+      ApplicationPageComponent,
+      MessagePageComponent,
+      PropositionPageComponent,
+      HistoryPageComponent,
+      CalendarPageComponent,
+      ProfilePageComponent,
+      RegisterPageComponent,
+      LoginPageComponent,
+      SidebarComponent
+    ],
+    imports: [
+      BrowserModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule,
+      RouterModule.forRoot( MainRouter, { onSameUrlNavigation: 'reload' } )
+    ],
+    providers: [ AuthService ],
+    bootstrap: [ AppComponent ]
+  })
+  export class AppModule { }
