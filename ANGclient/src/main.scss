@@ -1,0 +1,356 @@
+// Font
+
+// ROBOTO
+@font-face {
+    font-family: "Roboto";
+    src: url("assets/font/Roboto/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: url("assets/font/Roboto/Roboto-Bold.ttf");
+    font-weight: 700;
+}
+
+
+// TEMPLATE
+body {
+  font-family: 'Roboto', 'sans-serif';
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 43px 0;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+a.link-green {
+  font-size: 16px;
+  font-weight: 700;
+  color: #BFB824;
+}
+
+main {
+  padding-top: 71px;
+}
+
+.bloc {
+  text-align: center;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+// HEADER
+header {
+  float:left;
+  background-color: #F2F2F2;
+  font-weight: 700;
+  font-size: 16px;
+  position: fixed !important;
+  z-index: 2;
+  .search {
+    position: relative;
+    width: 50%;
+    input {
+      background-color: transparent;
+      padding: 5px 20px;
+      border: 2px solid #000;
+      border-radius: 20px;
+      outline: 0;
+      font-weight: 700;
+      width: 100%;
+      &::placeholder {
+        color: #000;
+      }
+    }
+    img {
+      position: absolute;
+      right: 20px;
+      top: 7px;
+      width: 22px;
+    }
+  }
+  .profil {
+    img {
+      width: 40px;
+      border-radius: 100%;
+    }
+  }
+  a {
+    text-transform: uppercase;
+  }
+}
+
+// SIDENAV
+div.sidebar {
+  height: 100vh;
+  background-color: #1A1E41;
+  float: left;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  img {
+    width: 100px;
+    margin: 25px 0 50px 0;
+  }
+  nav {
+    float: right;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    li {
+      padding: 12px 0 12px 20px;
+      a {
+        color: #FFF;
+        font-weight: 400;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      &.active {
+        background-color: #FFF;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        a {
+          font-weight: 700;
+          color: #1A1E41;
+        }
+      }
+    }
+    &.nav2 {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+// DASHBOARD
+
+// Profil
+div.profil-dashboard {
+  text-align: center;
+  background-color: #F2F2F2;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  p:first-of-type {
+    padding: 20px 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  p:last-of-type {
+    padding: 5px 0;
+    font-size: 10px;
+  }
+  a.link-green {
+    display: inline-block;
+    padding: 50px 0;
+  }
+}
+
+// Chiffres
+div.chiffres-dashboard {
+  margin-bottom: 20px;
+  .bloc {
+    padding: 35px 10px;
+    span {
+      color: #FFF;
+      background-color: #BFB824;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 25px;
+      font-weight: 700;
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      margin: 0 auto;
+      display: block;
+      margin-bottom: 35px;
+    }
+    p {
+      color: #979797;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+}
+
+// Reseaux sociaux
+div.reseaux-sociaux-dashboard {
+  margin-bottom: 20px;
+  .bloc {
+    padding: 10px 20px;
+    img {
+      width: 30px;
+    }
+    p {
+      margin: 0;
+      &:first-of-type {
+        padding: 10px 0;
+        font-size: 25px;
+        font-weight: 700;
+      }
+      &:last-of-type {
+        color: #979797;
+        font-size: 16px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+div.evenements-dashboard {
+  .bloc {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      &:last-of-type {
+        color: #979797;
+      }
+    }
+    a {
+      cursor: pointer;
+    }
+  }
+  .link {
+    text-align: center;
+    padding: 10px 0;
+  }
+}
+
+
+// -- vars
+$bg-color: #34495e;
+$default-size: 1em;
+$label-font-size: $default-size / 4;
+$label-font-size-redo: $default-size * 4;
+
+// -- mixins
+@mixin size($width, $height) {
+  height: $height;
+  width: $width;
+}
+
+@mixin draw-progress($progress, $color) {
+  .pie {
+    .half-circle {
+      border-color: $color;
+    }
+
+    .left-side {
+      transform: rotate($progress * 3.6deg);
+    }
+
+    @if $progress <= 50 {
+      .right-side {
+        display: none;
+      }
+    } @else {
+      clip: rect(auto, auto, auto, auto);
+
+      .right-side {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.set-size {
+  font-size: 14em;
+}
+
+.charts-container {
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
+}
+
+.pie-wrapper {
+  @include size($default-size, $default-size);
+  //float: left;
+  margin: 15px;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 50%;
+  border:1px solid #BFB824;
+
+  &:nth-child(3n + 1) {
+    clear: both;
+  }
+
+  .pie {
+    @include size(100%, 100%);
+    clip: rect(0, $default-size, $default-size, $default-size / 2);
+    left: 0;
+    position: absolute;
+    top: 0;
+
+    .half-circle {
+      @include size(100%, 100%);
+      border: ($default-size / 20) solid #3498db;
+      border-radius: 50%;
+      clip: rect(0, $default-size / 2, $default-size, 0);
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
+  }
+
+  img {
+    position: absolute;
+    width: calc( 100% - 22px );
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: brightness(50%);
+  }
+
+  .label {
+    background: $bg-color;
+    border-radius: 50%;
+    bottom: $label-font-size-redo / 10;
+    color: #ecf0f1;
+    cursor: default;
+    display: block;
+    font-size: $label-font-size;
+    left: $label-font-size-redo / 10;
+    line-height: $label-font-size-redo * .70;
+    position: absolute;
+    right: $label-font-size-redo / 10;
+    text-align: center;
+    top: $label-font-size-redo / 10;
+    font-weight: 700;
+  }
+
+  .fond {
+    @include size(100%, 100%);
+    border: $default-size / 20 solid #FFF;
+    border-radius: 50%;
+  }
+
+  &.style-2 {
+    .label {
+      background: none;
+      color: #BFB824;
+    }
+  }
+
+  &.progress-45 {
+    @include draw-progress(45, #BFB824);
+  }
+}
+

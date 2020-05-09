@@ -25,6 +25,7 @@ import { CalendarPageComponent } from './routes/calendar-page/calendar-page.comp
 import { ProfilePageComponent } from './routes/profile-page/profile-page.component';
 import { RegisterPageComponent } from './routes/register-page/register-page.component';
 import { LoginPageComponent } from './routes/login-page/login-page.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LoginPageComponent } from './routes/login-page/login-page.component';
     CalendarPageComponent,
     ProfilePageComponent,
     RegisterPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

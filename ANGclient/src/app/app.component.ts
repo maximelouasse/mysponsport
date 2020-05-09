@@ -15,6 +15,7 @@ Componant configuration
   @Component({
     selector: 'app-root',
     template: `
+      <app-sidebar></app-sidebar>
       <app-header></app-header>
       <router-outlet></router-outlet>
     `

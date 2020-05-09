@@ -1,4 +1,23 @@
-<nav>
+<header class="col-md-10 offset-md-2">
+  <div class="row align-items-center no-gutters pl-4 pr-4 pt-3 pb-3 ">
+    <div class="col">
+      <div class="search">
+        <input type="text" name="" id="" placeholder="Recherche de sponsor">
+        <img src="assets/img/search.png" alt="">
+      </div>
+    </div>
+    <div class="col-md-3 text-right profil">
+      <img src="assets/img/profil.jpg" alt="">
+      <span class="ml-2">Sarah Ourahmoune</span>
+    </div>
+    <div class="col-md-2 text-right">
+      <img src="assets/img/down-arrow.png" alt="">
+      <a class="ml-2">Déconnexion</a>
+    </div>
+  </div>
+</header>
+
+<!-- <nav>
   <ul>
       <li *ngIf="!userData">
           <a [routerLink]="'/'">Tableau de bord</a>
@@ -36,4 +55,4 @@
   </ul>
 </nav>
 
-<h1 *ngIf="userData !== null" [innerText]="userData.first_name"></h1>
+<h1 *ngIf="userData !== null" [innerText]="userData.first_name"></h1> -->
