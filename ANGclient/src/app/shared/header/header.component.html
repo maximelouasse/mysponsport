@@ -1,6 +1,6 @@
 <nav>
   <ul>
-      <li *ngIf="!userData">
+      <li *ngIf="userData">
           <a [routerLink]="'/'">Tableau de bord</a>
       </li>
       <li *ngIf="userData">
@@ -35,5 +35,3 @@
       </li>
   </ul>
 </nav>
-
-<h1 *ngIf="userData !== null" [innerText]="userData.first_name"></h1>

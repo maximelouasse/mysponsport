@@ -1,61 +1,80 @@
 /*
-Import
+Imports & definition
 */
-  // Angular
+  // Imports
   import { Component, OnInit } from '@angular/core';
-  import { Router } from '@angular/router';
 
   // Inner
-  import { CrudService } from "../../services/crud/crud.service";
-import { ObservablesService } from 'src/app/services/observable/observable.service';
-//
+  import { ApiResponseModel } from "../../models/api.response.model";
+  import { UserService } from "../../services/user/user.service";
+  import { ObservablesService } from '../../services/observable/observable.service';
 
-@Component({
+  // Cookie service
+  import { CookieService } from 'ngx-cookie-service';
+
+  import { Router } from '@angular/router';
+
+  // Definition
+  @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
-    styles: [],
-})
-export class HomePageComponent implements OnInit {
+    providers: [ UserService, CookieService ]
+  })
+//
+
+/*
+Export
+*/
+  export class HomePageComponent implements OnInit {
 
     // Properties
     public userData: any;
+    private userId: any;
 
+    public messageClass: String;
+    public apiMessage: String;
+
+    // Module injection
     constructor(
-      private CrudService: CrudService,
+      private UserService: UserService,
       private Router: Router,
-      private ObservablesService: ObservablesService
+      private ObservablesService: ObservablesService,
+      private cookieService: CookieService,
     ) {
-      // Get user data observer
-      this.ObservablesService.getUserInfo().subscribe( userDataObserver => {
-          console.log(userDataObserver);
-          if(userDataObserver === null) {
-              this.userData = null
-          } else {
-              if(userDataObserver.data.length > 0) {
-                console.log(userDataObserver);
-                  // Set local storage
-                  localStorage.setItem('userEmail', userDataObserver.data[0].email );
-
-                  // Update userData value
-                  this.userData = userDataObserver.data[0];
-              } else {
-                  this.userData = null
-              }
-          }
-      })
-    }
-
-    public getUserInfo = (email: String ) => {
-        // Get user infos
-        const userInfo = this.CrudService.readOneItem('user', `email=${email}`);
-
-        // Check user info
-        //if(userInfo.length > 0) {
-            // Change route endpoint
-            this.Router.navigateByUrl('/connected');
-        //}
+        this.userId = this.cookieService.get('userId');
     };
 
-    ngOnInit(): void {}
+    /*
+    Methods
+    */
+    public getUser = () => {
+      this.UserService.getUserData(this.userId)
+      .then( (apiResponse: ApiResponseModel) => {
+        // API success response
+        this.messageClass = 'success';
+        this.apiMessage = apiResponse.message;
 
-}
+        console.log(apiResponse.data);
+
+        this.ObservablesService.setObservableData('user', apiResponse.data);
+
+        this.userData = apiResponse.data;
+      })
+      .catch( (apiResponse: ApiResponseModel) => {
+        // API error response
+        this.messageClass = 'error';
+        this.apiMessage = apiResponse.message;
+      })
+    }
+    //
+
+
+    /*
+    Hooks
+    */
+      ngOnInit() {
+        this.getUser();
+      };
+    //
+  };
+//

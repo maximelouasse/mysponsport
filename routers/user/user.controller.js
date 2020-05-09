@@ -1,7 +1,7 @@
 /*
 Import
 */
-    const { UserModel } = require('../../models/index');
+    const { UserModel, AthleteModel } = require('../../models/index');
 //
 
 /* 
@@ -42,8 +42,18 @@ Methods CRUD
 
     const readOneItem = (req) => {
         return new Promise( (resolve, reject) => {
-            UserModel.findById(req.params.id, (err, document) => {
-                err ? reject(err) : resolve(document);
+            UserModel.findById(req.params.id, (err, user) => {
+                if(user.role === 'athlete') {
+                    AthleteModel.findOne( { userId: user._id }, (error, athlete) => {
+                        if(error) reject(error)
+                        else if(!athlete) reject('Unknow athlete')
+                        else {
+                            return resolve({ user, athlete });
+                        }
+                    });
+                } else if(user.role === 'brand') {
+                    
+                }
             })
         })
     }

@@ -1,50 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 
-// Inner
-import { ObservablesService } from '../../services/observable/observable.service';
+  // Inner
+  import { ObservablesService } from '../../services/observable/observable.service';
 
-@Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styles: [
-  ],
-})
-export class HeaderComponent implements OnInit {
+  // Cookie service
+  import { CookieService } from 'ngx-cookie-service';
 
-  /*
-  Declaration
-  */
-    // Properties
-    public userData: any;
+  @Component({
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styles: [],
+    providers: [ CookieService ]
+  })
 
-    constructor(
-        private ObservablesService: ObservablesService
-    ){
-        // Get user data observer
-        this.ObservablesService.getUserInfo().subscribe( userDataObserver => {
-            if(userDataObserver === null) {
-                this.userData = null
-            } else {
-                if(userDataObserver.data.length > 0) {
-                    // Set local storage
-                    localStorage.setItem('userEmail', userDataObserver.data[0].email );
+  export class HeaderComponent implements OnInit {
 
-                    // Update userData value
-                    this.userData = userDataObserver.data[0];
-                } else {
-                    this.userData = null
-                }
-            }
-        })
-    }
+    /*
+    Declaration
+    */
+      // Properties
+      public userData: any;
 
-    public logout = () => {
-        // Delete localstorage
-        localStorage.removeItem('userEmail');
+      constructor(
+          private ObservablesService: ObservablesService,
+          private cookieService: CookieService
+      ){
+          this.userData = this.cookieService.get('userId');
+
+          // Get user data observer
+          this.ObservablesService.getUserInfo().subscribe( userDataObserver => {
+              if(userDataObserver === null || userDataObserver === 'undefined') {
+                  this.userData = null
+              } else {
+                // Set local storage
+                sessionStorage.setItem('userId', JSON.stringify(userDataObserver) );
+
+                // Update userData value
+                this.userData = userDataObserver;
+              }
+          })
+      }
+
+      public logout = () => {
+        this.cookieService.delete('userId');
+
+        localStorage.removeItem('userId');
 
         // Set user info observabale value
         this.ObservablesService.setObservableData('user', null)
-    }
+      }
 
-    ngOnInit(){};
-}
+      ngOnInit(){};
+  }

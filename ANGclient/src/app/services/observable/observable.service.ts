@@ -22,18 +22,10 @@ Definition and export
       return this.userInfo
     };
 
-    public getPostList(): Observable<any> {
-      return this.postList
-    };
-
     public setObservableData = (type: string, data: any) => {
       switch(type) {
         case 'user':
           this.userInfo.next(data);
-          break;
-
-        case 'post':
-          this.postList.next(data);
           break;
 
         default:

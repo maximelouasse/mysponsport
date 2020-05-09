@@ -1,4 +1,1 @@
-<app-form-login
-    *ngIf="!userData"
-    (formSubmit)="getUserInfo($event)"
-></app-form-login>
+<h1>{{ userData.athlete.first_name + " " + userData.athlete.last_name }}</h1>

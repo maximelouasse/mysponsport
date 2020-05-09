@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnectedPageComponent } from './connected-page.component';
+import { FormRegisterComponent } from './form-register.component';
 
-describe('ConnectedPageComponent', () => {
-  let component: ConnectedPageComponent;
-  let fixture: ComponentFixture<ConnectedPageComponent>;
+describe('FormRegisterComponent', () => {
+  let component: FormRegisterComponent;
+  let fixture: ComponentFixture<FormRegisterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConnectedPageComponent ]
+      declarations: [ FormRegisterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConnectedPageComponent);
+    fixture = TestBed.createComponent(FormRegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

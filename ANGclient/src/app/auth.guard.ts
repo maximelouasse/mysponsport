@@ -1,9 +1,10 @@
 // Imports
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 // Inner
-import { CrudService } from "./services/crud/crud.service";
+import { ApiResponseModel } from "./models/api.response.model";
+import { AuthService } from "./services/auth/auth.service";
 
 // Definition
 @Injectable({ providedIn: 'root' })
@@ -12,19 +13,17 @@ import { CrudService } from "./services/crud/crud.service";
 export class AuthGuard implements CanActivate {
 
     constructor(
-        private CrudService: CrudService,
-        private Router: Router,
-    ){}
+    private AuthService: AuthService,
+    private Router: Router,
+    ) {}
 
 
-    canActivate(): Promise<any> {
+    canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
         return new Promise( (resolve, reject) => {
-            this.CrudService.readOneItem('users', `email=${localStorage.getItem('userEmail')}`)
-            .then( ( apiResponse ) =>  {
-                if(apiResponse.length > 0){ return resolve(true) }
-                else{ this.Router.navigateByUrl('/') };
-            })
-            .catch( ( apiResponse ) =>  this.Router.navigateByUrl('/'))
+          // Use Auth service to check user indentity from the servere
+          this.AuthService.getUserId()
+            .then( (apiResponse: ApiResponseModel) =>  resolve(true))
+            .catch( (apiResponse: ApiResponseModel) =>  this.Router.navigateByUrl('/'))
         })
     }
 }
