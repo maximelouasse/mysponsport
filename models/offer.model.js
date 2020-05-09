@@ -39,9 +39,13 @@ const OfferSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, "can't be blank"]
-    }
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
 });
 
-const Offer = mongoose.model('Offer', OfferSchema);
+const OfferModel = mongoose.model('offer', OfferSchema);
 
-module.exports = Offer;
+module.exports = OfferModel;

@@ -1,12 +1,16 @@
-// Imports
-const Models = require('../../models/index')
+/*
+Import
+*/
+    const { SportModel } = require('../../models/index');
+//
 
 /* 
 Methods CRUD
 */
+    // Sport
     const createItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.sport.create(req.body)
+            SportModel.create(req.body)
             .then( sport => resolve({sport}) )
             .catch( err => reject(err) );
         })
@@ -14,7 +18,7 @@ Methods CRUD
 
     const readItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.sport.find( (err, collection) => {
+            SportModel.find( (err, collection) => {
                 err ? reject(err) : resolve(collection);
             })
         })
@@ -22,7 +26,7 @@ Methods CRUD
 
     const readOneItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.sport.findById(req.params.id, (err, document) => {
+            SportModel.findById(req.params.id, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -30,11 +34,11 @@ Methods CRUD
 
     const updateItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.sport.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
+            SportModel.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.sport.findById( req.params.id, (err, updated) => {
+                    SportModel.findById( req.params.id, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -44,7 +48,7 @@ Methods CRUD
 
     const deleteItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.sport.deleteOne({ _id: req.params.id }, (err, document) => {
+            SportModel.deleteOne({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })

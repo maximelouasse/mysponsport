@@ -1,4 +1,7 @@
-const mongoose = require('mongoose');
+//IMPORT
+    const mongoose = require('mongoose')
+    const jwt = require('jsonwebtoken');
+//
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -51,15 +54,41 @@ const UserSchema = new mongoose.Schema({
             }
         }]
     },
-    last_connexion: {
+    lastConnexion: {
         type: Date
     },
-    created_at: {
+    createdAt: {
         type: Date,
         default: Date.now
+    },
+    isValidated: {
+        type: Boolean
     }
 });
 
-const User = mongoose.model('User', UserSchema);
+//METHODE
+    UserSchema.methods.generateJwt = idUser =>{
+        // The access token expired in 60 days
+        const expiry = new Date();
+        expiry.setDate(expiry.getDate() + 59);
 
-module.exports = User;
+        /**
+         * JWT sign() method
+         * @param object => all the data nedded for the access token
+         * @param JWT_SECRET => secure key to hash the access token (cf. '.env')
+         * @return => hashed user access token
+        */
+            return jwt.sign({
+                _id: idUser,
+                isValidated: this.password,
+                creationDate: this.creationDate,
+                lastConnection: this.lastConnection,
+                expireIn: '10s',
+                exp: parseInt(expiry.getTime() / 100, 10)
+            }, process.env.JWT_SECRET );
+        //
+    }
+
+const UserModel = mongoose.model('user', UserSchema);
+
+module.exports = UserModel;

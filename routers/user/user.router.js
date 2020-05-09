@@ -3,452 +3,251 @@ Imports
 */
     // Nodes
     const express = require('express');
-    const myRouter = express.Router();
+    const userRouter = express.Router();
 
-    // Modules
+    // Inner
     const { checkFields } = require('../../services/request.checker');
     const Mandatories = require('../../services/mandatory.service');
-    const { createItem, readItem, readOneItem, updateItem, deleteItem, readUserBrand, readUserOffer, createMessage, readUserMessages, readConversationMessages, createApplication, readApplication, readOneApplication, createSocialNetwork, updateSocialNetwork, deleteSocialNetwork, readAllUserSocialNetwork, readOneUserSocialNetwork } = require('./user.controller');
+    const Vocabulary = require('../../services/vocabulary.service');
+    const { sendBodyError, sendFieldsError, sendApiSuccessResponse, sendApiErrorResponse } = require('../../services/response.service');
+    const { createItem, readItem, readOneItem, updateItem, deleteItem, readUserBrand, readUserOffer, createMessage, readUserMessages, readConversationMessages, createApplication, readApplication, readOneApplication, updateApplication, deleteApplication, createSocialNetwork, updateSocialNetwork, deleteSocialNetwork, readAllUserSocialNetwork, readOneUserSocialNetwork } = require('./user.controller');
 //
 
 /*
 Routes definition
 */
-    class MyRouterClass {
+    class UserRouterClass {
 
         // Inject passport in the class
         constructor() {}
 
         routes() {
             // CRUD: create
-            myRouter.post('/', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            userRouter.post('/', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
                 // Check fields in the body
                 const { miss, extra, ok } = checkFields( Mandatories.user, req.body );
 
-                if(!ok) {
-                    return res.status(400).json({
-                        message: 'Bad fields provided',
-                        data: null,
-                        err: {miss, extra}
-                    })
-                } else {
+                //=> Error: bad fields provided
+                if (!ok) { sendFieldsError(res, Vocabulary.errors.badFields, miss, extra) }
+                else {
+                    //=> Request is valid: use controller
                     createItem(req)
-                    .then( apiResponse => {
-                        return res.status(201).json({
-                            message: 'Data created',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not created',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
-                }
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                };
             })
 
             // CRUD: read
-            myRouter.get('/', (req, res) => {
+            userRouter.get('/', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+                //=> Request is valid: use controller
                 readItem(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // CRUD: read one
-            myRouter.get('/:id', (req, res) => {
+            userRouter.get('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+                //=> Request is valid: use controller
                 readOneItem(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // CRUD: update
-            myRouter.put('/:id', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            userRouter.put('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
                 // Check fields in the body
                 const { miss, extra, ok } = checkFields( Mandatories.user, req.body );
 
-                if(!ok) {
-                    return res.status(400).json({
-                        message: 'Bad fields provided',
-                        data: null,
-                        err: {miss, extra}
-                    })
-                } else {
+                //=> Error: bad fields provided
+                if (!ok) { sendFieldsError(res, Vocabulary.errors.badFields, miss, extra) }
+                else {
+                    //=> Request is valid: use controller
                     updateItem(req)
-                    .then( apiResponse => {
-                        return res.status(201).json({
-                            message: 'Data updated',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not updated',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
-                }
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                };
             })
 
             // CRUD: delete
-            myRouter.delete('/:id', (req, res) => {
-                deleteItem(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data deleted',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not deleted',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+            userRouter.delete('/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
+                deleteItem(req.body)
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
-            // Register user
-            myRouter.get('/register', (req, res) => {
-
-            });
-
-            // Register user
-            myRouter.get('/login', (req, res) => {
-
-            });
-
             // Get brand user
-            myRouter.get('/:id/brand', (req, res) => {
+            userRouter.get('/:id/brand', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readUserBrand(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Get offer user
-            myRouter.get('/:id/offer', (req, res) => {
+            userRouter.get('/:id/offer', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readUserOffer(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Create message
-            myRouter.post('/:id/message', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            userRouter.post('/:id/message', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
                 // Check fields in the body
                 const { miss, extra, ok } = checkFields( Mandatories.message, req.body );
 
-                if(!ok) {
-                    return res.status(400).json({
-                        message: 'Bad fields provided',
-                        data: null,
-                        err: {miss, extra}
-                    })
-                } else {
+                //=> Error: bad fields provided
+                if (!ok) { sendFieldsError(res, Vocabulary.errors.badFields, miss, extra) }
+                else {
+                    //=> Request is valid: use controller
                     createMessage(req)
-                    .then( apiResponse => {
-                        return res.status(201).json({
-                            message: 'Data created',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not created',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
-                }
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                };
             })
 
             // Get distinct receiverId message by user
-            myRouter.get('/:id/message', (req, res) => {
+            userRouter.get('/:id/message', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readUserMessages(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Create User Application
-            myRouter.post('/:id/application', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
-
+            userRouter.post('/:id/application', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+                
+                //=> Request is valid: use controller
                 createApplication(req)
-                .then( apiResponse => {
-                    return res.status(201).json({
-                        message: 'Data created',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not created',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Get All User Application
-            myRouter.get('/:id/application', (req, res) => {
+            userRouter.get('/:id/application', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readApplication(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Get One User Application
-            myRouter.get('/:id/application/:applicationId', (req, res) => {
+            userRouter.get('/:id/application/:applicationId', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readOneApplication(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Update / Delete User Application
+            userRouter.put('/:id/application/:applicationId', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                if(req.body.action === 'update') {
+                    //=> Request is valid: use controller
+                    updateApplication(req)
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                } else if(req.body.action === 'delete') {
+                    //=> Request is valid: use controller
+                    deleteApplication(req)
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
+                }
+            })
 
             // Get all messages by authorId / receiverId
-            myRouter.get('/:id/message/:receiverId', (req, res) => {
+            userRouter.get('/:id/message/:receiverId', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readConversationMessages(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
             
             // Create User Social
-            myRouter.post('/:id/social', (req, res) => {
-                // Error: no body present
-                if (typeof req.body === 'undefined' || req.body === null) { 
-                    return res.status(400).json({
-                        message: 'No body provided',
-                        data: null,
-                        err: null
-                    })
-                }
+            userRouter.post('/:id/social', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
 
+                //=> Request is valid: use controller
                 createSocialNetwork(req)
-                .then( apiResponse => {
-                    return res.status(201).json({
-                        message: 'Data created',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not created',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Update / Delete User Social Network
-            myRouter.put('/:id/social/:socialId', (req, res) => {
+            userRouter.put('/:id/social/:socialId', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
                 if(req.body.action === 'update') {
+                    //=> Request is valid: use controller
                     updateSocialNetwork(req)
-                    .then( apiResponse => {
-                        return res.status(200).json({
-                            message: 'Data updated',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not updated',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
                 } else if(req.body.action === 'delete') {
+                    //=> Request is valid: use controller
                     deleteSocialNetwork(req)
-                    .then( apiResponse => {
-                        return res.status(200).json({
-                            message: 'Data updated',
-                            data: apiResponse,
-                            err: null
-                        })
-                    })
-                    .catch( apiResponse => {
-                        return res.status(400).json({
-                            message: 'Data not updated',
-                            data: null,
-                            err: apiResponse
-                        })
-                    })
+                        .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                        .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
                 }
             })
 
             // Get All User Social Network
-            myRouter.get('/:id/social', (req, res) => {
+            userRouter.get('/:id/social', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readAllUserSocialNetwork(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
 
             // Get One User Social Network
-            myRouter.get('/:userId/social/:id', (req, res) => {
+            userRouter.get('/:userId/social/:id', (req, res) => {
+                // Check request body
+                if (typeof req.body === 'undefined' || req.body === null) { sendBodyError(res, Vocabulary.errors.noBody) };
+
+                //=> Request is valid: use controller
                 readOneUserSocialNetwork(req)
-                .then( apiResponse => {
-                    return res.status(200).json({
-                        message: 'Data sended',
-                        data: apiResponse,
-                        err: null
-                    })
-                })
-                .catch( apiResponse => {
-                    return res.status(400).json({
-                        message: 'Data not sended',
-                        data: null,
-                        err: apiResponse
-                    })
-                })
+                    .then( apiResponse => sendApiSuccessResponse(res, Vocabulary.request.success, apiResponse) )
+                    .catch( apiResponse => sendApiErrorResponse(res, Vocabulary.request.error, apiResponse))
             })
         }
 
@@ -457,7 +256,7 @@ Routes definition
             this.routes();
 
             // Sendback router
-            return myRouter;
+            return userRouter;
         }
     }
 //
@@ -465,5 +264,5 @@ Routes definition
 /*
 Export
 */
-    module.exports = MyRouterClass;
+    module.exports = UserRouterClass;
 //

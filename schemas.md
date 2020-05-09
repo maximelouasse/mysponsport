@@ -26,7 +26,7 @@ password: {
     type: String,
     required: [true, "can't be blank"]
 },
-last_connexion: {
+lastConnexion: {
     type: Date
 },
 role: {

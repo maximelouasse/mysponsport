@@ -1,12 +1,16 @@
-// Imports
-const Models = require('../../models/index')
+/*
+Import
+*/
+    const { AthleteModel } = require('../../models/index');
+//
 
 /* 
 Methods CRUD
 */
+    // Athlete
     const createItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.create(req.body)
+            AthleteModel.create(req.body)
             .then( athlete => resolve({ athlete }) )
             .catch( err => reject(err) );
         })
@@ -14,7 +18,7 @@ Methods CRUD
 
     const readItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.find( (err, collection) => {
+            AthleteModel.find( (err, collection) => {
                 err ? reject(err) : resolve(collection);
             })
         })
@@ -22,7 +26,7 @@ Methods CRUD
 
     const readOneItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findById(req.params.id, (err, document) => {
+            AthleteModel.findById(req.params.id, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -30,11 +34,11 @@ Methods CRUD
 
     const updateItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
+            AthleteModel.findByIdAndUpdate(req.params.id, req.body, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( req.params.id, (err, updated) => {
+                    AthleteModel.findById( req.params.id, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -44,7 +48,7 @@ Methods CRUD
 
     const deleteItem = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.deleteOne({ _id: req.params.id }, (err, document) => {
+            AthleteModel.deleteOne({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document);
             })
         })
@@ -57,11 +61,11 @@ Methods CRUD
             logo = req.body.logo;
             
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athlteId }, { $push: { sponsor: { name: name, logo: logo} } }, (err, document) => {
+            AthleteModel.findByIdAndUpdate({ _id: athlteId }, { $push: { sponsor: { name: name, logo: logo} } }, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athlteId, (err, updated) => {
+                    AthleteModel.findById( athlteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -71,7 +75,7 @@ Methods CRUD
 
     const readSponsor = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findById({ _id: req.params.id }, (err, document) => {
+            AthleteModel.findById({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document.sponsor);
             })
         })
@@ -79,7 +83,7 @@ Methods CRUD
 
     const readOneSponsor = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findById({ _id: req.params.id }, (err, document) => {
+            AthleteModel.findById({ _id: req.params.id }, (err, document) => {
                 if(err) {
                     reject(err);
                 } else {
@@ -100,11 +104,11 @@ Methods CRUD
             logo = req.body.logo;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $set: { sponsor: { _id: sponsorId, name: name, logo: logo } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $set: { sponsor: { _id: sponsorId, name: name, logo: logo } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -117,11 +121,11 @@ Methods CRUD
             sponsorId = req.params.sponsorId;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $pull: { sponsor: { _id: sponsorId } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $pull: { sponsor: { _id: sponsorId } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -135,11 +139,11 @@ Methods CRUD
             title = req.body.title;
             
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athlteId }, { $push: { award: { title: title } } }, (err, document) => {
+            AthleteModel.findByIdAndUpdate({ _id: athlteId }, { $push: { award: { title: title } } }, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athlteId, (err, updated) => {
+                    AthleteModel.findById( athlteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -149,7 +153,7 @@ Methods CRUD
 
     const readAward = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findById({ _id: req.params.id }, (err, document) => {
+            AthleteModel.findById({ _id: req.params.id }, (err, document) => {
                 err ? reject(err) : resolve(document.award);
             })
         })
@@ -157,7 +161,7 @@ Methods CRUD
 
     const readOneAward = (req) => {
         return new Promise( (resolve, reject) => {
-            Models.athlete.findById({ _id: req.params.id }, (err, document) => {
+            AthleteModel.findById({ _id: req.params.id }, (err, document) => {
                 if(err) {
                     reject(err);
                 } else {
@@ -177,11 +181,11 @@ Methods CRUD
             title = req.body.title;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $set: { award: { _id: awardId, title: title } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $set: { award: { _id: awardId, title: title } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -194,11 +198,11 @@ Methods CRUD
             awardId = req.params.awardId;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $pull: { award: { _id: awardId } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $pull: { award: { _id: awardId } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -213,11 +217,11 @@ Methods CRUD
             level = req.body.level;
             
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athlteId }, { $push: { practice: { sportId: sportId, level: level} } }, (err, document) => {
+            AthleteModel.findByIdAndUpdate({ _id: athlteId }, { $push: { practice: { sportId: sportId, level: level} } }, (err, document) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athlteId, (err, updated) => {
+                    AthleteModel.findById( athlteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -248,11 +252,11 @@ Methods CRUD
             sportId = req.body.sportId;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $set: { practice: { _id: practiceId, level: level, sportId: sportId } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $set: { practice: { _id: practiceId, level: level, sportId: sportId } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }
@@ -265,11 +269,11 @@ Methods CRUD
             practiceId = req.params.practiceId;
 
         return new Promise( (resolve, reject) => {
-            Models.athlete.findByIdAndUpdate({ _id: athleteId }, { $pull: { practice: { _id: practiceId } } }, (err, collection) => {
+            AthleteModel.findByIdAndUpdate({ _id: athleteId }, { $pull: { practice: { _id: practiceId } } }, (err, collection) => {
                 if( err ) {
                     return reject(err)
                 } else {
-                    Models.athlete.findById( athleteId, (err, updated) => {
+                    AthleteModel.findById( athleteId, (err, updated) => {
                         err ? reject(err) : resolve(updated);
                     })
                 }

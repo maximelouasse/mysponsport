@@ -12,16 +12,12 @@ const AthleteSchema = new mongoose.Schema({
         minlength: 3
     },
     profil_picture: {
-        type: String,
-        required: [true, "can't be blank"]
+        type: String
     },
     professional_email: {
         type: String,
         trim: false,
-        unique: true,
-        required: [true, "can't be blank"],
-        match: [/\S+@\S+\.\S+/, "is invalid"],
-        index: true
+        match: [/\S+@\S+\.\S+/, "is invalid"]
     },
     gender: {
         type: String,
@@ -88,6 +84,6 @@ const AthleteSchema = new mongoose.Schema({
     }
 });
 
-const Athlete = mongoose.model('Athlete', AthleteSchema);
+const AthleteModel = mongoose.model('athlete', AthleteSchema);
 
-module.exports = Athlete;
+module.exports = AthleteModel;

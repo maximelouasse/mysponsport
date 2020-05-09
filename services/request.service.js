@@ -36,6 +36,6 @@ Service definition
 Export service fonctions
 */
     module.exports = {
-        checkFields,
+        checkFields
     };
 //

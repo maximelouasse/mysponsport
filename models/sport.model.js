@@ -8,6 +8,6 @@ const SportSchema = new mongoose.Schema({
     }
 });
 
-const Sport = mongoose.model('Sport', SportSchema);
+const SportModel = mongoose.model('sport', SportSchema);
 
-module.exports = Sport;
+module.exports = SportModel;
