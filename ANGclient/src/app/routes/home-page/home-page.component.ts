@@ -6,11 +6,7 @@ Imports & definition
 
   // Inner
   import { ApiResponseModel } from "../../models/api.response.model";
-  import { UserService } from "../../services/user/user.service";
-  import { ObservablesService } from '../../services/observable/observable.service';
-
-  // Cookie service
-  import { CookieService } from 'ngx-cookie-service';
+  import { AuthService } from '../../services/auth/auth.service';
 
   import { Router } from '@angular/router';
 
@@ -18,7 +14,7 @@ Imports & definition
   @Component({
     selector: 'app-home-page',
     templateUrl: './home-page.component.html',
-    providers: [ UserService, CookieService ]
+    providers: [ AuthService ]
   })
 //
 
@@ -36,27 +32,23 @@ Export
 
     // Module injection
     constructor(
-      private UserService: UserService,
       private Router: Router,
-      private ObservablesService: ObservablesService,
-      private cookieService: CookieService,
-    ) {
-        this.userId = this.cookieService.get('userId');
-    };
+      private AuthService: AuthService
+    ) { };
 
     /*
     Methods
     */
     public getUser = () => {
-      this.UserService.getUserData(this.userId)
+      localStorage.getItem('userId');
+
+      this.AuthService.identity(localStorage.getItem('userId'))
       .then( (apiResponse: ApiResponseModel) => {
         // API success response
-        this.messageClass = 'success';
-        this.apiMessage = apiResponse.message;
-
         console.log(apiResponse.data);
 
-        this.ObservablesService.setObservableData('user', apiResponse.data);
+        this.messageClass = 'success';
+        this.apiMessage = apiResponse.message;
 
         this.userData = apiResponse.data;
       })
@@ -72,8 +64,8 @@ Export
     /*
     Hooks
     */
-      ngOnInit() {
-        this.getUser();
+      async ngOnInit() {
+        await this.getUser();
       };
     //
   };

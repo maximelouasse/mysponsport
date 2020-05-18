@@ -19,11 +19,12 @@
   import { PropositionPageComponent } from './routes/proposition-page/proposition-page.component';
   import { HistoryPageComponent } from './routes/history-page/history-page.component';
   import { CalendarPageComponent } from './routes/calendar-page/calendar-page.component';
-  import { RegisterPageComponent } from './routes/register-page/register-page.component';
-
-  import { ProfilePageComponent } from './routes/profile-page/profile-page.component';
   import { LoginPageComponent } from './routes/login-page/login-page.component';
+  import { RegisterPageComponent } from './routes/register-page/register-page.component';
+  import { ProfilePageComponent } from './routes/profile-page/profile-page.component';
   import { SidebarComponent } from './shared/sidebar/sidebar.component';
+  import { FormLoginComponent } from "./shared/form-login/form-login.component";
+  import { FormRegisterComponent } from "./shared/form-register/form-register.component";
 
   @NgModule({
     declarations: [
@@ -36,9 +37,11 @@
       HistoryPageComponent,
       CalendarPageComponent,
       ProfilePageComponent,
-      RegisterPageComponent,
       LoginPageComponent,
-      SidebarComponent
+      RegisterPageComponent,
+      SidebarComponent,
+      FormLoginComponent,
+      FormRegisterComponent
     ],
     imports: [
       BrowserModule,

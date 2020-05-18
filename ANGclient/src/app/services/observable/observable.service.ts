@@ -16,15 +16,11 @@ Definition and export
     constructor() {}
 
     protected userInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    protected postList: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-    public getUserInfo(): Observable<any> {
-      return this.userInfo
-    };
-
+    // Set observable value
     public setObservableData = (type: string, data: any) => {
       switch(type) {
-        case 'user':
+        case 'users':
           this.userInfo.next(data);
           break;
 
@@ -32,5 +28,16 @@ Definition and export
           break;
       };
     };
+
+    // Get observable value
+    public getObservableData = (type: string) => {
+      switch(type) {
+        case 'users':
+          return this.userInfo;
+
+        default:
+        break;
+    };
+  };
   }
 //

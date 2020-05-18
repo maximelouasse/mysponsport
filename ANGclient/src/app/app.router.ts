@@ -6,6 +6,9 @@ Imports
 
     // Inner
     import { AuthGuard } from "./auth.guard";
+    import { HomePageComponent } from './routes/home-page/home-page.component';
+    import { RegisterPageComponent } from './routes/register-page/register-page.component';
+    import { LoginPageComponent } from './routes/login-page/login-page.component';
     import { CampaignPageComponent } from './routes/campaign-page/campaign-page.component';
     import { MessagePageComponent } from './routes/message-page/message-page.component';
     import { ApplicationPageComponent } from './routes/application-page/application-page.component';
@@ -21,7 +24,16 @@ Export
     export const MainRouter: Routes = [
       {
         path: '',
-        loadChildren: () => import(`./routes/home-page/module`).then(m => m.Module)
+        component: HomePageComponent,
+        canActivate: [ AuthGuard ]
+      },
+      {
+        path: 'inscription',
+        component: RegisterPageComponent
+      },
+      {
+        path: 'connexion',
+        component: LoginPageComponent
       },
       {
         path: 'campagne',
@@ -69,14 +81,6 @@ Export
         path: 'profil',
         component: ProfilePageComponent,
         canActivate: [ AuthGuard ]
-      },
-      {
-        path: 'inscription',
-        loadChildren: () => import(`./routes/register-page/module`).then(m => m.Module)
-      },
-      {
-        path: 'connexion',
-        loadChildren: () => import(`./routes/login-page/module`).then(m => m.Module)
       }
     ];
 //

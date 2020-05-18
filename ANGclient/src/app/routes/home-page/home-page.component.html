@@ -1,11 +1,9 @@
-<h1>{{ userData.athlete.first_name + " " + userData.athlete.last_name }}</h1>
-
 <main>
 
   <!-- Header main -->
   <div class="col-md-10 offset-md-2">
     <div class="row no-gutters pl-4 pr-4">
-      <h1>Bienvenue Sarah</h1>
+      <h1>Bienvenue {{ userData.athlete.first_name }}</h1>
     </div>
   </div>
 
@@ -17,7 +15,7 @@
         <div class="col-md-12">
           <h2>Profil</h2>
           <div class="profil-dashboard">
-            <p>Sarah Ourahmoune</p>
+            <p>{{ userData.athlete.first_name + " " + userData.athlete.last_name }}</p>
             <p>profil complété à</p>
             <div class="set-size charts-container">
               <div class="pie-wrapper progress-45 style-2">

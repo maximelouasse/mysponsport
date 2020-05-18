@@ -28,7 +28,7 @@
           this.userData = this.cookieService.get('userId');
 
           // Get user data observer
-          this.ObservablesService.getUserInfo().subscribe( userDataObserver => {
+          this.ObservablesService.getObservableData('users').subscribe( userDataObserver => {
               if(userDataObserver === null || userDataObserver === 'undefined') {
                   this.userData = null
               } else {
@@ -47,7 +47,7 @@
         localStorage.removeItem('userId');
 
         // Set user info observabale value
-        this.ObservablesService.setObservableData('user', null)
+        this.ObservablesService.setObservableData('users', null)
       }
 
       ngOnInit(){};

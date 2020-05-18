@@ -55,7 +55,7 @@ Export
 
           console.log(apiResponse.data);
 
-          this.ObservablesService.setObservableData('user', apiResponse.data);
+          this.ObservablesService.setObservableData('users', apiResponse.data);
 
           this.userData = apiResponse.data;
         })

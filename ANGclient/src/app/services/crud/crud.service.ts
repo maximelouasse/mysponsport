@@ -91,15 +91,11 @@ Definition
           switch(endpoint) {
             case 'user':
               // Set user info observabale value
-              this.ObservablesService.setObservableData('user', apiResponse)
+              this.ObservablesService.setObservableData('users', apiResponse)
 
               // Return data
               return apiResponse || {};
               break;
-
-            case 'posts':
-              // Set post list observabale value
-              this.ObservablesService.setObservableData('post', apiResponse)
 
               // Return data
               return apiResponse || {};

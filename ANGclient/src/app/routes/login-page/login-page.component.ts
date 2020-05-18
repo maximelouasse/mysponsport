@@ -51,30 +51,6 @@ Export
     /*
     Methods
     */
-      // Register new user
-      public registerUser = (data: UserModel) => {
-        // Send user data
-        this.AuthService.register(data)
-        .then( (apiResponse: ApiResponseModel) => {
-          // API success response
-          this.messageClassRegister = 'success';
-          this.apiMessageRegister = apiResponse.message;
-          this.displayReturnRegister = true;
-
-          // Reset form data
-          this.resetFormDataRegister = true;
-
-          this.cookieService.set('userId', apiResponse.data.user._id);
-          this.Router.navigate([ '/' ]);
-        })
-        .catch( (apiResponse: ApiResponseModel) => {
-          // API error response
-          this.messageClassRegister = 'error';
-          this.apiMessageRegister = apiResponse.message;
-          this.displayReturnRegister = true;
-        })
-      };
-
       // Connnect new user
       public connectUser = (data: UserModel) => {
         // Send user data
@@ -91,7 +67,7 @@ Export
           this.resetFormDataLogin = true;
           console.log(apiResponse.data);
 
-          this.ObservablesService.setObservableData('user', apiResponse.data);
+          this.ObservablesService.setObservableData('users', apiResponse.data);
 
           this.cookieService.set('userId', apiResponse.data.user._id);
           this.Router.navigate([ '/' ]);
