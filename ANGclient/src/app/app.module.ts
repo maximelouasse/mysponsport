@@ -10,6 +10,8 @@
 
   // Inner components
   import { AuthService } from "./services/auth/auth.service";
+  import { CrudService } from "./services/crud/crud.service";
+  import { UserService } from "./services/user/user.service";
   import { AppComponent } from './app.component';
   import { MainRouter } from './app.router';
   import { HeaderComponent } from './shared/header/header.component';
@@ -50,7 +52,7 @@
       ReactiveFormsModule,
       RouterModule.forRoot( MainRouter, { onSameUrlNavigation: 'reload' } )
     ],
-    providers: [ AuthService ],
+    providers: [ AuthService, CrudService, UserService ],
     bootstrap: [ AppComponent ]
   })
   export class AppModule { }

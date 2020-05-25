@@ -13,23 +13,16 @@ Definition
 */
   @Injectable()
   export class CrudService {
-    /*
-		Déclarations
-		*/
-      private apiUrl: String;
-		//
 
     // Inject module(s) in the service
     constructor(
       private HttpClient: HttpClient,
       private ObservablesService: ObservablesService
-    ) {
-      this.apiUrl = environment.apiUrl;
-    };
+    ) {};
 
     // CRUD method: read item
     public readOneItem(endpoint: String, param: String): Promise<any>{
-      return this.HttpClient.get(`${this.apiUrl}/${endpoint}?${param}`)
+      return this.HttpClient.get(`${environment.apiUrl}/${endpoint}?${param}`)
       .toPromise()
       .then( data => this.getData(endpoint, data))
       .catch(this.handleError);
@@ -37,7 +30,7 @@ Definition
 
     // CRUD method: read all items
     public readAllItems(endpoint: String): Promise<any>{
-      return this.HttpClient.get(`https://jsonplaceholder.typicode.com/posts/`)
+      return this.HttpClient.get(`${environment.apiUrl}/${endpoint}`)
       .toPromise()
       .then( data => this.getData(endpoint, data))
       .catch(this.handleError);
@@ -92,10 +85,6 @@ Definition
             case 'user':
               // Set user info observabale value
               this.ObservablesService.setObservableData('users', apiResponse)
-
-              // Return data
-              return apiResponse || {};
-              break;
 
               // Return data
               return apiResponse || {};

@@ -38,7 +38,7 @@ Export
       {
         path: 'campagne',
         component: CampaignPageComponent,
-        canActivate: [ AuthGuard ]
+        //canActivate: [ AuthGuard ]
       },
       {
         path: 'message',
@@ -48,7 +48,7 @@ Export
       {
         path: 'candidature',
         component: ApplicationPageComponent,
-        canActivate: [ AuthGuard ],
+        //canActivate: [ AuthGuard ],
         children: [
           {
             path: 'candidature/:id',
