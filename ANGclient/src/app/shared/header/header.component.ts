@@ -2,6 +2,8 @@
 
   // Inner
   import { ObservablesService } from '../../services/observable/observable.service';
+  import { ApiResponseModel } from "../../models/api.response.model";
+  import { AuthService } from '../../services/auth/auth.service';
 
   // Cookie service
   import { CookieService } from 'ngx-cookie-service';
@@ -21,9 +23,13 @@
       // Properties
       public userData: any;
 
+      public messageClass: String;
+      public apiMessage: String;
+
       constructor(
           private ObservablesService: ObservablesService,
-          private cookieService: CookieService
+          private cookieService: CookieService,
+          private AuthService: AuthService
       ){
           this.userData = this.cookieService.get('userId');
 
@@ -40,6 +46,30 @@
               }
           })
       }
+
+    /*
+    Methods
+    */
+    public getUser = () => {
+      localStorage.getItem('userId');
+
+      this.AuthService.identity(localStorage.getItem('userId'))
+        .then((apiResponse: ApiResponseModel) => {
+          // API success response
+          console.log(apiResponse.data);
+
+          this.messageClass = 'success';
+          this.apiMessage = apiResponse.message;
+
+          this.userData = apiResponse.data;
+        })
+        .catch((apiResponse: ApiResponseModel) => {
+          // API error response
+          this.messageClass = 'error';
+          this.apiMessage = apiResponse.message;
+        })
+    }
+    //
 
       public logout = () => {
         this.cookieService.delete('userId');

@@ -11,6 +11,11 @@
     font-weight: 700;
 }
 
+// Color
+
+$green: #BFB824;
+$blue: #1A1E41;
+
 
 // TEMPLATE
 body {
@@ -31,7 +36,7 @@ h2 {
 a.link-green {
   font-size: 16px;
   font-weight: 700;
-  color: #BFB824;
+  color: $green;
 }
 
 main {
@@ -66,6 +71,9 @@ header {
       &::placeholder {
         color: #000;
       }
+      &:focus::placeholder {
+        color: transparent;
+      }
     }
     img {
       position: absolute;
@@ -88,7 +96,7 @@ header {
 // SIDENAV
 div.sidebar {
   height: 100vh;
-  background-color: #1A1E41;
+  background-color: $blue;
   float: left;
   text-align: center;
   padding: 0;
@@ -118,7 +126,7 @@ div.sidebar {
         border-bottom-left-radius: 30px;
         a {
           font-weight: 700;
-          color: #1A1E41;
+          color: $blue;
         }
       }
     }
@@ -127,6 +135,77 @@ div.sidebar {
       bottom: 0;
       right: 0;
     }
+  }
+}
+
+// LOGIN
+
+div.login {
+  background-color: $blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 50px 100px;
+  border-radius: 10px;
+  img {
+    width: 125px;
+    margin-bottom: 50px;
+  }
+  p {
+    font-size: 12px;
+    color: #FFF;
+    a {
+      color: $green;
+    }
+  }
+  h2 {
+    font-size: 20px;
+    color: #FFF;
+  }
+  a.link_forgot_password {
+    color: $green;
+    font-size: 12px;
+    margin-top: 20px;
+    display: block;
+  }
+}
+
+// FORM
+form {
+  color:#FFF;
+  input {
+    display: block;
+    &[type=email], &[type=password]{
+      background-color: transparent;
+      border: 2px solid #FFF;
+      color: #FFF;
+      padding: 8px 30px;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      outline: transparent;
+      &::placeholder {
+        text-align: center;
+        color: #FFF;
+      }
+      &:focus::placeholder {
+        color: transparent;
+      }
+    }
+  }
+  button {
+    color: #FFF;
+    background-color: $green;
+    border-radius: 20px;
+    padding: 8px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    width: 100%;
+    cursor: pointer;
   }
 }
 
@@ -160,7 +239,7 @@ div.chiffres-dashboard {
     padding: 35px 10px;
     span {
       color: #FFF;
-      background-color: #BFB824;
+      background-color: $green;
       padding: 10px;
       border-radius: 50%;
       font-size: 25px;
@@ -285,7 +364,7 @@ $label-font-size-redo: $default-size * 4;
   position: relative;
   margin: 0 auto;
   border-radius: 50%;
-  border:1px solid #BFB824;
+  border:1px solid $green;
 
   &:nth-child(3n + 1) {
     clear: both;
@@ -345,12 +424,129 @@ $label-font-size-redo: $default-size * 4;
   &.style-2 {
     .label {
       background: none;
-      color: #BFB824;
+      color: $green;
     }
   }
 
   &.progress-45 {
-    @include draw-progress(45, #BFB824);
+    @include draw-progress(45, $green);
+  }
+}
+
+// CAMPAGNES
+
+div.second_header_campagne {
+  margin-top: -30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .search {
+    position: relative;
+    input {
+      background-color: transparent;
+      padding: 5px 20px;
+      border: 2px solid #000;
+      border-radius: 20px;
+      outline: 0;
+      font-weight: 700;
+      width: 650px;
+      &::placeholder {
+        color: #000;
+      }
+      &:focus::placeholder {
+        color: transparent;
+      }
+    }
+    img {
+      position: absolute;
+      right: 20px;
+      top: 7px;
+      width: 22px;
+    }
+  }
+  div.filter {
+    border: 2px solid #000;
+    border-radius: 100%;
+    padding: 6px;
+    img {
+      width: 22px;
+    }
+  }
+  a.best_annonces {
+    text-align: center;
+    font-weight: 700;
+    color: $green;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  div.tri {
+    a {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    img {
+      margin-left: 5px;
+    }
+  }
+
+}
+
+ul.offers {
+  list-style: none;
+  li {
+    padding: 10px 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    margin-bottom: 35px;
+    div {
+      margin: 0 10px;
+      &:nth-of-type(3) {
+        width: 50%;
+      }
+      p {
+        margin: 0;
+        &.libelle {
+          font-size: 9px;
+          font-weight: 700;
+          color: #C4C4C4;
+        }
+        &:last-of-type {
+          font-weight: 700;
+        }
+      }
+      img.logo {
+        margin-top: -10px;
+      }
+      img.reseaux_sociaux {
+        width: 12px;
+        margin-right: 10px;
+      }
+    }
+    span {
+      width: 2px;
+      background-color: #F2F2F2;
+    }
+    a {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      color: $green;
+      cursor: pointer;
+    }
+  }
+}
+
+div.link {
+  text-align: center;
+  margin-bottom: 20px;
+  a {
+    color: $green;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
   }
 }
 

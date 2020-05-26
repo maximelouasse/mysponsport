@@ -25,7 +25,7 @@ Export
       {
         path: '',
         component: HomePageComponent,
-        canActivate: [ AuthGuard ]
+        //canActivate: [ AuthGuard ]
       },
       {
         path: 'inscription',

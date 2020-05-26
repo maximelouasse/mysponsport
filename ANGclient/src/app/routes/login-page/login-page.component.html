@@ -1,5 +1,10 @@
-<h2>Connexion</h2>
-<app-form-login
-  (sendFormData)="connectUser($event)"
-  [resetFormData]="resetFormDataLogin"
-></app-form-login>
+<div class="login">
+  <img src="assets/img/logo_mysponsport.png" alt="">
+  <h2>Se connecter</h2>
+  <p>Pas de compte ?<a [routerLink]="'/inscription'"> S'inscrire</a></p>
+  <app-form-login
+    (sendFormData)="connectUser($event)"
+    [resetFormData]="resetFormDataLogin"
+  ></app-form-login>
+  <a class="link_forgot_password" [routerLink]="'/inscription'"> Mot de passe oublié ?</a>
+</div>
