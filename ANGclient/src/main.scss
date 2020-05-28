@@ -31,13 +31,20 @@ h1 {
 h2 {
   font-size: 16px;
   font-weight: 700;
+  a {
+    margin-left: 15px;
+    font-size: 12px !important;
+  }
 }
 
 a.link-green {
   font-size: 16px;
   font-weight: 700;
   color: $green;
+  cursor: pointer;
 }
+
+
 
 main {
   padding-top: 71px;
@@ -47,6 +54,18 @@ main {
   text-align: center;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+}
+
+span.pastille {
+  margin-left: 15px;
+  background-color: $green;
+  border-radius: 100%;
+  color :#FFF;
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  text-align: center;
+  padding-top: 4px;
 }
 
 // HEADER
@@ -492,7 +511,7 @@ div.second_header_campagne {
 
 }
 
-ul.offers {
+ul.offers, ul.application {
   list-style: none;
   li {
     padding: 10px 10px;
@@ -536,6 +555,12 @@ ul.offers {
       color: $green;
       cursor: pointer;
     }
+  }
+}
+
+ul.application li div {
+  &:nth-of-type(5) {
+    width: 15%;
   }
 }
 
